@@ -1,0 +1,4 @@
+major_version_bump_message: '^((breaking|major):)'
+minor_version_bump_message: '^((feat|feature|minor):)'
+patch_version_bump_message: '^((fix|patch|refactor):)'
+commit_message_incrementing_enabled: true
