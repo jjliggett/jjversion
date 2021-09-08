@@ -5,11 +5,13 @@ on:
       - README.md
       - LICENSE.md
       - 'docs/**'
-    pull_request:
-      paths-ignore:
-        -README.md
-        - LICENSE.md
-        - 'docs/**'
+      - '.github/workflows/codeql-analysis.yaml'
+  pull_request:
+    paths-ignore:
+      -README.md
+      - LICENSE.md
+      - 'docs/**'
+      - '.github/workflows/codeql-analysis.yaml'
 
 jobs:
   build:
