@@ -10,14 +10,10 @@ func getVersionTags(tagrefs storer.ReferenceIter, tags *object.TagIter) map[stri
 	versions := make(map[string]version)
 
 	err := tagrefs.ForEach(func(t *plumbing.Reference) error {
-		v, ok := GetVersion((t.Name().Short()))
+		v, ok := GetVersion(t.Name().Short())
 		if ok {
 			hash := t.Hash().String()
-			if previouslyFoundVersion, ok := versions[hash]; ok {
-				if !previouslyFoundVersion.IsGreaterThan(v) {
-					versions[hash] = v
-				}
-			} else {
+			if shouldSaveVersionTag(versions, v, hash) {
 				versions[hash] = v
 			}
 		}
@@ -26,14 +22,10 @@ func getVersionTags(tagrefs storer.ReferenceIter, tags *object.TagIter) map[stri
 	CheckIfError(err)
 
 	err = tags.ForEach(func(t *object.Tag) error {
-		v, ok := GetVersion((t.Name))
+		v, ok := GetVersion(t.Name)
 		if ok {
 			hash := t.Target.String()
-			if previouslyFoundVersion, ok := versions[hash]; ok {
-				if !previouslyFoundVersion.IsGreaterThan(v) {
-					versions[hash] = v
-				}
-			} else {
+			if shouldSaveVersionTag(versions, v, hash) {
 				versions[hash] = v
 			}
 		}
@@ -42,5 +34,15 @@ func getVersionTags(tagrefs storer.ReferenceIter, tags *object.TagIter) map[stri
 	CheckIfError(err)
 
 	return versions
+}
 
+func shouldSaveVersionTag(versions map[string]version, v version, hash string) bool {
+	if previouslyFoundVersion, ok := versions[hash]; ok {
+		if !previouslyFoundVersion.IsGreaterThan(v) {
+			return true
+		}
+	} else {
+		return true
+	}
+	return false
 }

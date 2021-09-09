@@ -13,7 +13,7 @@ func init() {
 	gs = gitService{}
 }
 
-func calculate_version() {
+func calculateVersion() {
 	path, err := oss.getwd()
 	CheckIfError(err)
 

@@ -6,6 +6,6 @@ import (
 
 var appVersion string
 
-func print_version() {
+func printVersion() {
 	fmt.Printf("jjversion v%s\n", appVersion)
 }

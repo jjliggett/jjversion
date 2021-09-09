@@ -31,70 +31,6 @@ func (v *version) IncrementPatch() {
 	v.Patch = v.Patch + 1
 }
 
-func (v *version) String() string {
-	return fmt.Sprintf("%d.%d.%d", v.Major, v.Minor, v.Patch)
-}
-
-func (v *version) Json(hash string) string {
-	return fmt.Sprintf("{\n  \"Major\": %d,\n  \"Minor\": %d,\n  \"Patch\": %d,\n  \"MajorMinorPatch\": \"%d.%d.%d\",\n  \"Sha\": \"%s\",\n  \"ShortSha\": \"%s\"\n}", v.Major, v.Minor, v.Patch, v.Major, v.Minor, v.Patch, hash, hash[:7])
-}
-
-func GetVersion(value string) (version, bool) {
-	var expression = regexp.MustCompile(`^(v|V)(?P<major>0|([1-9][0-9]*)).(?P<minor>0|([1-9][0-9]*)).(?P<patch>0|([1-9][0-9]*))$`)
-	match := expression.FindStringSubmatch(value)
-	if match == nil {
-		return version{}, false
-	}
-	version_parts := make(map[string]string)
-	for i, name := range expression.SubexpNames() {
-		if i != 0 && name != "" {
-			version_parts[name] = match[i]
-		}
-	}
-	major, err := strconv.ParseUint(version_parts["major"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	minor, err := strconv.ParseUint(version_parts["minor"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	patch, err := strconv.ParseUint(version_parts["patch"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	v := version{major, minor, patch}
-	return v, true
-}
-
-func GetVersionFromReleaseBranch(shortBranchName string) (version, bool) {
-	var expression = regexp.MustCompile(`^release\/(?P<major>0|([1-9][0-9]*)).(?P<minor>0|([1-9][0-9]*)).(?P<patch>0|([1-9][0-9]*))$`)
-	match := expression.FindStringSubmatch(shortBranchName)
-	if match == nil {
-		return version{}, false
-	}
-	version_parts := make(map[string]string)
-	for i, name := range expression.SubexpNames() {
-		if i != 0 && name != "" {
-			version_parts[name] = match[i]
-		}
-	}
-	major, err := strconv.ParseUint(version_parts["major"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	minor, err := strconv.ParseUint(version_parts["minor"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	patch, err := strconv.ParseUint(version_parts["patch"], 10, 64)
-	if err != nil {
-		return version{}, false
-	}
-	v := version{major, minor, patch}
-	return v, true
-}
-
 func (value1 *version) IsGreaterThan(value2 version) bool {
 	if value1.Major > value2.Major {
 		return true
@@ -106,4 +42,50 @@ func (value1 *version) IsGreaterThan(value2 version) bool {
 		return true
 	}
 	return false
+}
+
+func (v *version) String() string {
+	return fmt.Sprintf("%d.%d.%d", v.Major, v.Minor, v.Patch)
+}
+
+func (v *version) Json(hash string) string {
+	return fmt.Sprintf("{\n  \"Major\": %d,\n  \"Minor\": %d,\n  \"Patch\": %d,\n  \"MajorMinorPatch\": \"%d.%d.%d\",\n  \"Sha\": \"%s\",\n  \"ShortSha\": \"%s\"\n}", v.Major, v.Minor, v.Patch, v.Major, v.Minor, v.Patch, hash, hash[:7])
+}
+
+func GetVersion(s string) (version, bool) {
+	expression := `^(v|V)(?P<major>0|([1-9][0-9]*)).(?P<minor>0|([1-9][0-9]*)).(?P<patch>0|([1-9][0-9]*))$`
+	return getVersion(s, expression)
+}
+
+func GetVersionFromReleaseBranch(shortBranchName string) (version, bool) {
+	expression := `^release\/(?P<major>0|([1-9][0-9]*)).(?P<minor>0|([1-9][0-9]*)).(?P<patch>0|([1-9][0-9]*))$`
+	return getVersion(shortBranchName, expression)
+}
+
+func getVersion(s string, expression string) (version, bool) {
+	e := regexp.MustCompile(expression)
+	match := e.FindStringSubmatch(s)
+	if match == nil {
+		return version{}, false
+	}
+	versionParts := make(map[string]string)
+	for i, name := range e.SubexpNames() {
+		if i != 0 && name != "" {
+			versionParts[name] = match[i]
+		}
+	}
+	major, err := strconv.ParseUint(versionParts["major"], 10, 64)
+	if err != nil {
+		return version{}, false
+	}
+	minor, err := strconv.ParseUint(versionParts["minor"], 10, 64)
+	if err != nil {
+		return version{}, false
+	}
+	patch, err := strconv.ParseUint(versionParts["patch"], 10, 64)
+	if err != nil {
+		return version{}, false
+	}
+	v := version{major, minor, patch}
+	return v, true
 }

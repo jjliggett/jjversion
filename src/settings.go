@@ -33,15 +33,15 @@ func getVersionSettings() versionSettings {
 				vs.Commit_Message_Incrementing_Enabled = true
 			}
 
-			if !(strings.TrimSpace(settingsData.Major_Version_Bump_Message) == "") {
+			if strings.TrimSpace(settingsData.Major_Version_Bump_Message) != "" {
 				vs.Major_Version_Bump_Message = settingsData.Major_Version_Bump_Message
 			}
 
-			if !(strings.TrimSpace(settingsData.Minor_Version_Bump_Message) == "") {
+			if strings.TrimSpace(settingsData.Minor_Version_Bump_Message) != "" {
 				vs.Minor_Version_Bump_Message = settingsData.Minor_Version_Bump_Message
 			}
 
-			if !(strings.TrimSpace(settingsData.Patch_Version_Bump_Message) == "") {
+			if strings.TrimSpace(settingsData.Patch_Version_Bump_Message) != "" {
 				vs.Patch_Version_Bump_Message = settingsData.Patch_Version_Bump_Message
 			}
 		}

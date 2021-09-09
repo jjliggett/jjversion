@@ -14,9 +14,9 @@ func main() {
 	shouldDisplayVersion := *shouldDisplayVersionFlag
 
 	if shouldDisplayVersion {
-		print_version()
+		printVersion()
 		os.Exit(0)
 	}
 
-	calculate_version()
+	calculateVersion()
 }
