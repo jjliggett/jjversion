@@ -25,7 +25,7 @@ RUN apt-get update \
     && apt-get install jq build-essential -y \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true" \
     # Use Docker script from script library to set things up
-    && /bin/bash /tmp/library-scripts/docker-debian.sh /tmp/library-scripts/docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "/var/run/docker-host.sock" "/var/run/docker.sock" "${USERNAME}" "${USE_MOBY}" \
+    && /bin/bash /tmp/library-scripts/docker-debian.sh "${ENABLE_NONROOT_DOCKER}" "/var/run/docker-host.sock" "/var/run/docker.sock" "${USERNAME}" "${USE_MOBY}" \
     # Use go-debian script from script library to set go up
     && /bin/bash /tmp/library-scripts/go-debian.sh "latest" "${GOROOT}" "${GOPATH}" \
     # Clean up

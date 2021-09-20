@@ -8,7 +8,7 @@ on:
       - '.github/workflows/codeql-analysis.yaml'
   pull_request:
     paths-ignore:
-      -README.md
+      - README.md
       - LICENSE.md
       - 'docs/**'
       - '.github/workflows/codeql-analysis.yaml'
@@ -96,18 +96,25 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jjversion
+      - run: chmod +x jjversion
+      - run: sudo mv jjversion /usr/local/bin
+      - run: jjversion
+      - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
+      - run: git reset --hard HEAD~1
+      - run: echo "PREVIOUS_COMMIT_VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - name: Download jjversion.tar
         uses: actions/download-artifact@v2
         with:
           name: jjversion.tar
-      - run: chmod +x jjversion
-      - run: ls -R -al
-      - run: sudo cp jjversion /usr/local/bin
       - run: docker load < jjversion.tar
-      - run: docker tag jjliggett/jjversion "jjliggett/jjversion:$(jjversion | jq --raw-output '.MajorMinorPatch')"
-      - run: docker tag jjliggett/jjversion "ghcr.io/jjliggett/jjversion:$(jjversion | jq --raw-output '.MajorMinorPatch')"
+      - run: docker tag jjliggett/jjversion "jjliggett/jjversion:${{ env.VERSION }}"
+      - run: docker tag jjliggett/jjversion "ghcr.io/jjliggett/jjversion:${{ env.VERSION }}"
       - run: docker tag jjliggett/jjversion "ghcr.io/jjliggett/jjversion:latest"
       - run: docker images
+      - run: echo "The Docker image with this version has not been published yet. The image will be uploaded on the root branch."
+        if: ${{ env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
+      - run: echo "The Docker image with this version has already been published. The image will not be uploaded on the root branch."
+        if: ${{ env.VERSION == env.PREVIOUS_COMMIT_VERSION }}
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         if: ${{ github.ref == 'refs/heads/root' }}
@@ -115,21 +122,28 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker push "ghcr.io/jjliggett/jjversion:$(jjversion | jq --raw-output '.MajorMinorPatch')"
-        if: ${{ github.ref == 'refs/heads/root' }}
+      - run: docker push "ghcr.io/jjliggett/jjversion:${{ env.VERSION }}"
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
       - run: docker push "ghcr.io/jjliggett/jjversion:latest"
-        if: ${{ github.ref == 'refs/heads/root' }}
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
       - name: Login to Docker Hub
         uses: docker/login-action@v1
-        if: ${{ github.ref == 'refs/heads/root' }}
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
         with:
           registry: docker.io
           username: jjliggett
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-      - run: docker push "jjliggett/jjversion:$(jjversion | jq --raw-output '.MajorMinorPatch')"
-        if: ${{ github.ref == 'refs/heads/root' }}
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
+        with:
+          registry: docker.io
+          username: jjliggett
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      - run: docker push "jjliggett/jjversion:${{ env.VERSION }}"
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
       - run: docker push jjliggett/jjversion
-        if: ${{ github.ref == 'refs/heads/root' }}
+        if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
 
   test-release-branch:
     runs-on: ubuntu-latest
