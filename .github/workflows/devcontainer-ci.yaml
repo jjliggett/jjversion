@@ -40,4 +40,10 @@ jobs:
             cd ..
             src/jjversion
             src/jjversion | jq --raw-output '.MajorMinorPatch'
+            docker build -t jjliggett/jjversion .
+            docker run -d --name jjversion jjliggett/jjversion sleep infinity
+            docker cp . jjversion:/repo
+            docker exec -t jjversion jjversion
+            docker kill jjversion
+            docker rm jjversion
           push: never
