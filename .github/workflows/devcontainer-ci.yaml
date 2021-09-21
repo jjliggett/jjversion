@@ -1,0 +1,41 @@
+name: devcontainer-ci
+on:
+  push:
+    paths-ignore:
+      - README.md
+      - LICENSE.md
+      - 'docs/**'
+      - '.github/workflows/actions.yaml'
+      - '.github/workflows/codeql-analysis.yaml'
+  pull_request:
+    paths-ignore:
+      - README.md
+      - LICENSE.md
+      - 'docs/**'
+      - '.github/workflows/actions.yaml'
+      - '.github/workflows/codeql-analysis.yaml'
+
+jobs:
+  devcontainer-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          fetch-depth: 0
+      - name: Setup Docker BuildKit
+        uses: docker/setup-buildx-action@v1
+      - name: Build and run dev container task
+        uses: stuartleeks/devcontainer-build-run@v0.1
+        with:
+          imageName: ghcr.io/jjliggett/jjversion-dc
+          runCmd: |
+            echo "Starting"
+            make test
+            cd src
+            go vet
+            go test
+            go build
+            cd ..
+            src/jjversion
+            src/jjversion | jq --raw-output '.MajorMinorPatch'
+          push: never

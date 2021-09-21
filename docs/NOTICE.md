@@ -74,6 +74,7 @@ Note, VS Code Dev Containers is a development tool that utilizes a Docker contai
 - https://github.com/actions/download-artifact
 - https://github.com/docker/login-action
 - https://github.com/github/codeql-action
+- https://github.com/stuartleeks/devcontainer-build-run
 
 The following extensions are included as part of the dev container:
 

@@ -16,7 +16,7 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 ENV GOROOT=/usr/local/go \
-    GOPATH=/go
+    GOPATH=/home/vscode/go
 ENV PATH=${GOPATH}/bin:${GOROOT}/bin:${PATH}
 
 COPY library-scripts/*.sh /tmp/library-scripts/
