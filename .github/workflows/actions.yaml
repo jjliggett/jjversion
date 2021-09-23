@@ -50,18 +50,20 @@ jobs:
 
       - run: |
           docker build -t jjliggett/jjversion . \
-            --build-arg BUILD_VERSION="$(jjversion | jq --raw-output '.MajorMinorPatch')" \
+            --build-arg BUILD_VERSION="${{ env.VERSION }}" \
             --label "org.opencontainers.image.created=$(date +%Y-%m-%dT%H:%M:%S%z)" \
-            --label "org.opencontainers.image.version=$(jjversion | jq --raw-output '.MajorMinorPatch')" \
+            --label "org.opencontainers.image.version=${{ env.VERSION }}" \
             --label "org.opencontainers.image.authors=jjliggett" \
             --label "org.opencontainers.image.url=https://github.com/jjliggett/jjversion" \
             --label "org.opencontainers.image.documentation=https://github.com/jjliggett/jjversion" \
-            --label "org.opencontainers.image.source=org.opencontainers.image.source" \
+            --label "org.opencontainers.image.source=https://github.com/jjliggett/jjversion" \
             --label "org.opencontainers.image.revision=$(git rev-parse HEAD)" \
             --label "org.opencontainers.image.title=jjversion" \
             --label "org.opencontainers.image.description=A basic versioning utility to version git projects"
+      - run: docker inspect jjliggett/jjversion
 
       - run: docker run --rm -v "$(pwd):/repo" jjliggett/jjversion
+      - run: docker run --rm jjliggett/jjversion jjversion --version
       - run: docker build -f Dockerfile.test -t jjliggett/jjversion-test .
       - run: docker run --rm jjliggett/jjversion-test
       - run: docker save jjliggett/jjversion > jjversion.tar
