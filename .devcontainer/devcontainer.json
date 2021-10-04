@@ -15,6 +15,6 @@
 		"ethan-reesor.vscode-go-test-adapter",
 		"ms-vscode.test-adapter-converter"
 	],
-	
-	"remoteUser": "vscode"
+	"remoteUser": "vscode",
+	"remoteEnv": { "LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}" }
 }

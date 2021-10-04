@@ -31,6 +31,12 @@ In addition to binaries, a Docker image is available. The image can be run as fo
 docker run --rm -v "$(pwd):/repo" jjliggett/jjversion
 ```
 
+Within the devcontainer, the image can be run as follows:
+
+```sh
+docker run --rm -v "$LOCAL_WORKSPACE_FOLDER:/repo" jjliggett/jjversion
+```
+
 The image is available on both GitHub Container Registry and Docker Hub.
 
 ## Licensing
