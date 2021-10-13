@@ -1,4 +1,6 @@
 # jjversion
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjjliggett%2Fjjversion.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjjliggett%2Fjjversion?ref=badge_shield)
+
 
 A basic versioning application for git projects, enabled by [go-git](https://github.com/go-git/go-git).
 
@@ -52,6 +54,9 @@ externally maintained libraries and dependencies.
 
 Attributions for dependencies of jjversion and developer
 dependencies can be found at [docs/NOTICE.md](docs/NOTICE.md).
+
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjjliggett%2Fjjversion.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjjliggett%2Fjjversion?ref=badge_large)
 
 ## Build Locally
 
