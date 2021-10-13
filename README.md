@@ -8,7 +8,7 @@ Versioning is obtained from the following sources, in this order:
 2. Version tag on the current commit, e.g. v1.42.0
 3. If commit_message_incrementing_enabled is **true** in ***versioning.yaml***: combination of semantic commits (major/minor/patch) and version tagged commits
 
-Combining this with conventional commits can work well: https://www.conventionalcommits.org/en/v1.0.0/
+Combining this with conventional commits can work well: <https://www.conventionalcommits.org/en/v1.0.0/>
 
 ## Sample Output
 
@@ -38,6 +38,10 @@ docker run --rm -v "$LOCAL_WORKSPACE_FOLDER:/repo" jjliggett/jjversion
 ```
 
 The image is available on both GitHub Container Registry and Docker Hub.
+
+## GitHub Action
+
+A custom GitHub action is available which installs the jjversion package, executes jjversion, and parses the JSON output into several outputs for use in GitHub workflows. Details can be found in the action repository: <https://github.com/jjliggett/jjversion-action>.
 
 ## Licensing
 
