@@ -1,4 +1,4 @@
-module github.com/jjliggett/jjversion
+module github.com/jjliggett/jjversion/src
 
 go 1.16
 

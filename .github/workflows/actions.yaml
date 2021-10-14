@@ -35,14 +35,14 @@ jobs:
         working-directory: src
       - run: go test
         working-directory: src
-      - run: go build
+      - run: go build -o jjversion
         working-directory: src
   
       - run: sudo mv src/jjversion /usr/local/bin
       - run: jjversion
       - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - run: sudo rm /usr/local/bin/jjversion
-      - run: go build -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: go build -o jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
         working-directory: src
       - run: sudo cp src/jjversion /usr/local/bin
       - run: jjversion

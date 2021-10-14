@@ -36,7 +36,7 @@ jobs:
             cd src
             go vet
             go test
-            go build
+            go build -o jjversion
             cd ..
             src/jjversion
             src/jjversion | jq --raw-output '.MajorMinorPatch'

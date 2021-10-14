@@ -11,7 +11,7 @@ RUN go mod download
 
 COPY src ./
 
-RUN go build -ldflags "-X main.appVersion=${VERSION}"
+RUN go build -o jjversion -ldflags "-X main.appVersion=${VERSION}"
 
 FROM alpine:3.14.2@sha256:e1c082e3d3c45cccac829840a25941e679c25d438cc8412c2fa221cf1a824e6a
 WORKDIR '/repo'
