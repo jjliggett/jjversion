@@ -18,36 +18,53 @@ on:
       - '.github/dependabot.yaml'
 
 jobs:
-  build:
+  initial-build:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Starting build pipeline for jjversion."
- 
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - run: ls -al
       - uses: actions/setup-go@v2
-      - name: Setup Docker BuildKit
-        uses: docker/setup-buildx-action@v1
-
       - run: go vet
         working-directory: src
       - run: go test
         working-directory: src
-      - run: go build -o jjversion
+      - run: go build -a -v -o jjversion
         working-directory: src
-  
       - run: sudo mv src/jjversion /usr/local/bin
       - run: jjversion
       - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - run: sudo rm /usr/local/bin/jjversion
-      - run: go build -o jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: go build -a -v -o jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
         working-directory: src
       - run: sudo cp src/jjversion /usr/local/bin
       - run: jjversion
       - run: jjversion --version
+      - name: Upload jjversion
+        uses: actions/upload-artifact@v2
+        with:
+          name: jjversion
+          path: src/jjversion
 
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: initial-build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Docker BuildKit
+        uses: docker/setup-buildx-action@v1
+      - name: Download jjversion
+        uses: actions/download-artifact@v2
+        with:
+          name: jjversion
+      - run: chmod +x jjversion
+      - run: sudo mv jjversion /usr/local/bin
+      - run: jjversion
+      - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - run: |
           docker build -t jjliggett/jjversion . \
             --build-arg BUILD_VERSION="${{ env.VERSION }}" \
@@ -61,27 +78,65 @@ jobs:
             --label "org.opencontainers.image.title=jjversion" \
             --label "org.opencontainers.image.description=A basic versioning utility to version git projects"
       - run: docker inspect jjliggett/jjversion
-
       - run: docker run --rm -v "$(pwd):/repo" jjliggett/jjversion
       - run: docker run --rm jjliggett/jjversion jjversion --version
-      - run: docker build -f Dockerfile.test -t jjliggett/jjversion-test .
-      - run: docker run --rm jjliggett/jjversion-test
       - run: docker save jjliggett/jjversion > jjversion.tar
-      - name: Upload jjversion
-        uses: actions/upload-artifact@v2
-        with:
-          name: jjversion
-          path: src/jjversion
       - name: Upload jjversion.tar
         uses: actions/upload-artifact@v2
         with:
           name: jjversion.tar
           path: jjversion.tar
 
+  docker-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Setup Docker BuildKit
+        uses: docker/setup-buildx-action@v1
+      - run: docker build -f Dockerfile.test -t jjliggett/jjversion-test .
+      - run: docker run --rm jjliggett/jjversion-test
+      - run: make test
+
+  build-cross-compilation:
+    runs-on: ubuntu-latest
+    needs: initial-build
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Download jjversion
+        uses: actions/download-artifact@v2
+        with:
+          name: jjversion
+      - run: chmod +x jjversion
+      - run: sudo mv jjversion /usr/local/bin
+      - run: jjversion
+      - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
+      - run: go build -a -v -o jjversion_${{ env.VERSION }} -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOARCH=arm64 go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_linux_386 -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOOS=darwin GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}_darwin_amd64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOOS=windows GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_386.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOOS=windows GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+      - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_arm.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+        working-directory: src
+
   publish:
     runs-on: ubuntu-latest
     needs:
-      - build
+      - initial-build
+      - docker-build
+      - docker-test
       - test-release-branch
       - test-release-branch-and-tag
       - test-commit-incrementing
@@ -153,7 +208,7 @@ jobs:
 
   test-release-branch:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - run: mkdir repo && cd repo
       - run: git init
@@ -177,7 +232,7 @@ jobs:
 
   test-release-branch-and-tag:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - run: mkdir repo && cd repo
       - run: git init
@@ -198,7 +253,7 @@ jobs:
 
   test-commit-incrementing:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - name: Download jjversion
         uses: actions/download-artifact@v2
@@ -241,7 +296,7 @@ jobs:
 
   test-commit-tags-annotated-highest:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - name: Download jjversion
         uses: actions/download-artifact@v2
@@ -270,7 +325,7 @@ jobs:
 
   test-commit-tags-lightweight-highest:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - name: Download jjversion
         uses: actions/download-artifact@v2
@@ -300,7 +355,7 @@ jobs:
 
   test-docker-release-branch:
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker-build
     steps:
       - run: mkdir repo && cd repo
       - run: git init
@@ -322,7 +377,7 @@ jobs:
 
   test-docker-release-branch-and-tag:
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker-build
     steps:
       - run: mkdir repo && cd repo
       - run: git init
@@ -341,7 +396,7 @@ jobs:
 
   test-docker-commit-incrementing:
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker-build
     steps:
       - name: Download jjversion.tar
         uses: actions/download-artifact@v2
@@ -383,7 +438,7 @@ jobs:
 
   test-docker-commit-tags-annotated-highest:
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker-build
     steps:
       - name: Download jjversion.tar
         uses: actions/download-artifact@v2
@@ -411,7 +466,7 @@ jobs:
 
   test-docker-commit-tags-lightweight-highest:
     runs-on: ubuntu-latest
-    needs: build
+    needs: docker-build
     steps:
       - name: Download jjversion.tar
         uses: actions/download-artifact@v2
@@ -440,7 +495,7 @@ jobs:
 
   test-commit-incrementing-custom-versioning-settings:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - name: Download jjversion
         uses: actions/download-artifact@v2
@@ -477,7 +532,7 @@ jobs:
 
   test-commit-incrementing-no-settings:
     runs-on: ubuntu-latest
-    needs: build
+    needs: initial-build
     steps:
       - name: Download jjversion
         uses: actions/download-artifact@v2
