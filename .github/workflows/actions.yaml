@@ -99,6 +99,28 @@ jobs:
       - run: docker run --rm jjliggett/jjversion-test
       - run: make test
 
+  matrix-test:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04, macos-10.15, macos-11, windows-2016, windows-2019, windows-2022]
+        go: [1.12.x, 1.13.x, 1.14.x, 1.15.x, 1.16.x, 1.17.x]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go }}
+      - run: go vet
+        working-directory: src
+      - run: go test
+        working-directory: src
+      - run: go build -a -v
+        working-directory: src
+      - run: ls src
+
   build-cross-compilation:
     runs-on: ubuntu-latest
     needs: initial-build
@@ -137,6 +159,7 @@ jobs:
       - initial-build
       - docker-build
       - docker-test
+      - matrix-test
       - test-release-branch
       - test-release-branch-and-tag
       - test-commit-incrementing
