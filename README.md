@@ -56,6 +56,5 @@ dependencies can be found at [docs/NOTICE.md](docs/NOTICE.md).
 ## Build Locally
 
 ```sh
-cd src
 go build -o jjversion -ldflags "-X main.appVersion=42.10.0"
 ```

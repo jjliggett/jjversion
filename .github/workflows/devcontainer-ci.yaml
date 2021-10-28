@@ -33,13 +33,11 @@ jobs:
           runCmd: |
             echo "Starting"
             make test
-            cd src
             go vet
-            go test
+            go test ./...
             go build -o jjversion
-            cd ..
-            src/jjversion
-            src/jjversion | jq --raw-output '.MajorMinorPatch'
+            ./jjversion
+            ./jjversion | jq --raw-output '.MajorMinorPatch'
             docker build -t jjliggett/jjversion .
             docker run -d --name jjversion jjliggett/jjversion sleep infinity
             docker cp . jjversion:/repo

@@ -1,9 +1,4 @@
-package main
-
-import (
-	"fmt"
-	"os"
-)
+package jjvercore
 
 var oss osInterface
 var gs gitServiceInterface
@@ -13,7 +8,7 @@ func init() {
 	gs = gitService{}
 }
 
-func calculateVersion() {
+func CalculateVersion() VersionOutput {
 	path, err := oss.getwd()
 	CheckIfError(err)
 
@@ -28,8 +23,7 @@ func calculateVersion() {
 	if ref.Name().IsBranch() {
 		branchVersion, success := GetVersionFromReleaseBranch(ref.Name().Short())
 		if success {
-			fmt.Println(branchVersion.Json(ref.Hash().String()))
-			os.Exit(0)
+			return VersionOutput{branchVersion.Major, branchVersion.Minor, branchVersion.Patch, ref.Hash().String()}
 		}
 	}
 
@@ -43,8 +37,7 @@ func calculateVersion() {
 
 	commit_version, ok := versions[ref.Hash().String()]
 	if ok {
-		fmt.Println(commit_version.Json(ref.Hash().String()))
-		os.Exit(0)
+		return VersionOutput{commit_version.Major, commit_version.Minor, commit_version.Patch, ref.Hash().String()}
 	}
 
 	cIter, err := gs.getRepositoryCommits(r)
@@ -54,6 +47,5 @@ func calculateVersion() {
 
 	v = incrementVersionByCommitMessages(cIter, versions, vs, v)
 
-	fmt.Println(v.Json(ref.Hash().String()))
-
+	return VersionOutput{v.Major, v.Minor, v.Patch, ref.Hash().String()}
 }

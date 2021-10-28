@@ -2,7 +2,10 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"os"
+
+	jjvercore "github.com/jjliggett/jjversion/jjvercore"
 )
 
 func main() {
@@ -18,5 +21,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	calculateVersion()
+	v := jjvercore.CalculateVersion()
+	fmt.Println(v.Json())
 }

@@ -4,12 +4,12 @@ ARG BUILD_VERSION
 ARG VERSION=${BUILD_VERSION:-0.0.0}
 
 WORKDIR '/app'
-COPY src/go.mod ./
-COPY src/go.sum ./
+COPY go.mod go.sum ./
 
 RUN go mod download
 
-COPY src ./
+COPY jjversion.go app_version.go ./
+COPY jjvercore/*.go jjvercore/
 
 RUN go build -o jjversion -ldflags "-X main.appVersion=${VERSION}"
 

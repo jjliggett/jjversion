@@ -28,25 +28,21 @@ jobs:
       - run: ls -al
       - uses: actions/setup-go@v2
       - run: go vet
-        working-directory: src
-      - run: go test
-        working-directory: src
+      - run: go test ./...
       - run: go build -a -v -o jjversion
-        working-directory: src
-      - run: sudo mv src/jjversion /usr/local/bin
+      - run: sudo mv jjversion /usr/local/bin
       - run: jjversion
       - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - run: sudo rm /usr/local/bin/jjversion
       - run: go build -a -v -o jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
-      - run: sudo cp src/jjversion /usr/local/bin
+      - run: sudo cp jjversion /usr/local/bin
       - run: jjversion
       - run: jjversion --version
       - name: Upload jjversion
         uses: actions/upload-artifact@v2
         with:
           name: jjversion
-          path: src/jjversion
+          path: jjversion
 
   docker-build:
     runs-on: ubuntu-latest
@@ -114,12 +110,9 @@ jobs:
         with:
           go-version: ${{ matrix.go }}
       - run: go vet
-        working-directory: src
-      - run: go test
-        working-directory: src
+      - run: go test ./...
       - run: go build -a -v
-        working-directory: src
-      - run: ls src
+      - run: ls
 
   build-cross-compilation:
     runs-on: ubuntu-latest
@@ -137,21 +130,13 @@ jobs:
       - run: jjversion
       - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
       - run: go build -a -v -o jjversion_${{ env.VERSION }} -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOARCH=arm64 go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_linux_386 -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOOS=darwin GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}_darwin_amd64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOOS=windows GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_386.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOOS=windows GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
       - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_arm.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
-        working-directory: src
 
   publish:
     runs-on: ubuntu-latest

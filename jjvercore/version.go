@@ -1,4 +1,4 @@
-package main
+package jjvercore
 
 import (
 	"fmt"
@@ -46,10 +46,6 @@ func (value1 *version) IsGreaterThan(value2 version) bool {
 
 func (v *version) String() string {
 	return fmt.Sprintf("%d.%d.%d", v.Major, v.Minor, v.Patch)
-}
-
-func (v *version) Json(hash string) string {
-	return fmt.Sprintf("{\n  \"Major\": %d,\n  \"Minor\": %d,\n  \"Patch\": %d,\n  \"MajorMinorPatch\": \"%d.%d.%d\",\n  \"Sha\": \"%s\",\n  \"ShortSha\": \"%s\"\n}", v.Major, v.Minor, v.Patch, v.Major, v.Minor, v.Patch, hash, hash[:7])
 }
 
 func GetVersion(s string) (version, bool) {
