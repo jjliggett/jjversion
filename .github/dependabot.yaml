@@ -5,15 +5,36 @@ updates:
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
+    assignees:
+      - "jjliggett"
+    reviewers:
+      - "jjliggett"
+    commit-message:
+      prefix: "patch(deps): "
+      include: "scope"
 
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
+    assignees:
+      - "jjliggett"
+    reviewers:
+      - "jjliggett"
+    commit-message:
+      prefix: "patch(deps): "
+      include: "scope"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "daily"
     open-pull-requests-limit: 10
+    assignees:
+      - "jjliggett"
+    reviewers:
+      - "jjliggett"
+    commit-message:
+      prefix: "ci(deps): "
+      include: "scope"
