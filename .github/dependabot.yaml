@@ -10,7 +10,7 @@ updates:
     reviewers:
       - "jjliggett"
     commit-message:
-      prefix: "patch(deps): "
+      prefix: "patch"
       include: "scope"
 
   - package-ecosystem: "docker"
@@ -23,7 +23,7 @@ updates:
     reviewers:
       - "jjliggett"
     commit-message:
-      prefix: "patch(deps): "
+      prefix: "patch"
       include: "scope"
 
   - package-ecosystem: "github-actions"
@@ -36,5 +36,5 @@ updates:
     reviewers:
       - "jjliggett"
     commit-message:
-      prefix: "ci(deps): "
+      prefix: "ci"
       include: "scope"
