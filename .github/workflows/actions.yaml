@@ -39,7 +39,7 @@ jobs:
       - run: jjversion
       - run: jjversion --version
       - name: Upload jjversion
-        uses: actions/upload-artifact@37da8e8d08da8a9370ca3bc9322df4b6c3dc49c3
+        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32
         with:
           name: jjversion
           path: jjversion
@@ -78,7 +78,7 @@ jobs:
       - run: docker run --rm jjliggett/jjversion jjversion --version
       - run: docker save jjliggett/jjversion > jjversion.tar
       - name: Upload jjversion.tar
-        uses: actions/upload-artifact@37da8e8d08da8a9370ca3bc9322df4b6c3dc49c3
+        uses: actions/upload-artifact@da838ae9595ac94171fa2d4de5a2f117b3e7ac32
         with:
           name: jjversion.tar
           path: jjversion.tar
