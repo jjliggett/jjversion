@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: ls -al
-      - uses: actions/setup-go@02f7ea9f09887fd7fd6c77c49a0f72a2e8cde95c
+      - uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
       - run: go vet
       - run: go test ./...
       - run: go build -a -v -o jjversion
