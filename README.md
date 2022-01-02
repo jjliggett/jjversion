@@ -1,10 +1,10 @@
 # jjversion
 
-A basic versioning application for git projects, enabled by [go-git](https://github.com/go-git/go-git).
+A basic SemVer versioning application for git projects, enabled by [go-git](https://github.com/go-git/go-git).
 
-Versioning is obtained from the following sources, in this order:
+Versioning is evaluated from the following sources, in this order:
 
-1. Release branch names if ona release branch, e.g. release/1.42.0
+1. Release branch names if on a release branch, e.g. release/1.42.0
 2. Version tag on the current commit, e.g. v1.42.0
 3. If commit_message_incrementing_enabled is **true** in ***versioning.yaml***: combination of semantic commits (major/minor/patch) and version tagged commits
 

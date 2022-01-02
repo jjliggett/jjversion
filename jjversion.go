@@ -10,7 +10,19 @@ import (
 
 func main() {
 
-	shouldDisplayVersionFlag := flag.Bool("version", false, "Displays version of jjversion")
+	flag.Usage = func() {
+		printVersion()
+		fmt.Println("Evaluate a SemVer version for a git repository according to configuration in versioning.yaml.")
+		fmt.Println("Usage: jjversion")
+		fmt.Println()
+
+		fmt.Println("Options:")
+		flag.PrintDefaults()
+		fmt.Println()
+		fmt.Println("For more info, see: https://github.com/jjliggett/jjversion")
+	}
+
+	shouldDisplayVersionFlag := flag.Bool("version", false, "Displays version of jjversion utility")
 
 	flag.Parse()
 

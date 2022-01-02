@@ -38,6 +38,7 @@ jobs:
       - run: sudo cp jjversion /usr/local/bin
       - run: jjversion
       - run: jjversion --version
+      - run: jjversion --help
       - name: Upload jjversion
         uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
