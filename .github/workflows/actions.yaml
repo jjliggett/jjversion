@@ -25,6 +25,7 @@ jobs:
       - uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
         with:
           fetch-depth: 0
+      - run: git log --oneline
       - run: ls -al
       - uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
       - run: go vet
@@ -98,27 +99,45 @@ jobs:
 
   build-cross-compilation:
     runs-on: ubuntu-latest
-    needs: initial-build
     steps:
       - uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
         with:
           fetch-depth: 0
-      - name: Download jjversion
-        uses: actions/download-artifact@f023be2c48cc18debc3bacd34cb396e0295e2869
-        with:
-          name: jjversion
-      - run: chmod +x jjversion
+      - uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
+      - run: go install
+      - run: go build -a -v -o jjversion
       - run: sudo mv jjversion /usr/local/bin
       - run: jjversion
       - run: echo "VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
+      - run: echo "MAJOR=$(jjversion | jq --raw-output '.Major')" >> $GITHUB_ENV
+      - run: echo "MINOR=$(jjversion | jq --raw-output '.Minor')" >> $GITHUB_ENV
+      - run: echo "PATCH=$(jjversion | jq --raw-output '.Patch')" >> $GITHUB_ENV
       - run: go build -a -v -o jjversion_${{ env.VERSION }} -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: env GOARCH=arm64 go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: env GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: env GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_linux_386 -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: env GOOS=darwin GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}_darwin_amd64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
+
+      # Set goversioninfo configuration for version and build Windows executables
+      - name: Change goversioninfo in jjversion.go
+        run: sed -i "s/\/\/go:generate goversioninfo/\/\/go:generate goversioninfo -file-version=${{ env.VERSION }} -product-version=${{ env.VERSION }} -ver-major=${{ env.MAJOR }} -ver-minor=${{ env.MINOR }} -ver-patch=${{ env.PATCH }} -ver-build=0 -product-ver-major=${{ env.MAJOR }} -product-ver-minor=${{ env.MINOR }} -product-ver-patch=${{ env.PATCH }} -product-ver-build=0/g" jjversion.go
+      - run: echo $PATH
+      - run: go install github.com/josephspurrier/goversioninfo/cmd/goversioninfo
+      - run: go env
+      # https://docs.github.com/en/actions/learn-github-actions/workflow-commands-for-github-actions#adding-a-system-path
+      - run: echo "/home/runner/go/bin" >> $GITHUB_PATH
+      - run: echo $PATH
+      - run: go generate
       - run: env GOOS=windows GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_386.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: env GOOS=windows GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: rm resource.syso
       - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_arm.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: cp jjversion_${{ env.VERSION }}.exe jjversion.exe
+      - name: Upload jjversion.exe
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion.exe
+          path: jjversion.exe
 
   publish:
     runs-on: ubuntu-latest

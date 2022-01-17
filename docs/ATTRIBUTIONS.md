@@ -10,6 +10,8 @@ The externally maintained libraries used by jjversion are:
 - docker-alpine, located at <https://github.com/gliderlabs/docker-alpine>
 - go-git, located at <https://github.com/go-git/go-git>
 - gopkg.in/yaml.v3 - <https://github.com/go-yaml/yaml/tree/v3>
+- josephspurrier/goversioninfo - <https://github.com/josephspurrier/goversioninfo>
+- akavel/rsrc - <https://github.com/akavel/rsrc>
 - Many dependencies of go-git, including:
   - <https://github.com/microsoft/go-winio>
   - <https://github.com/anmitsu/go-shlex>

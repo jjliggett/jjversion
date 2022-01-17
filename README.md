@@ -51,7 +51,7 @@ The jjversion license applies to all parts of jjversion that are not
 externally maintained libraries and dependencies.
 
 Attributions for dependencies of jjversion and developer
-dependencies can be found at [docs/NOTICE.md](docs/NOTICE.md).
+dependencies can be found at [docs/ATTRIBUTIONS.md](docs/ATTRIBUTIONS.md).
 
 ## Build Locally
 
