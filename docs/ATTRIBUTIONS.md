@@ -2,7 +2,7 @@
 
 jjversion uses several externally maintained libraries.
 
-This markdown file lists the dependencies of jjversion. Copies of each license can be found in the notices folder, for instance: [notices/golang-LICENSE.md](notices/golang-LICENSE.md).
+This markdown file lists the dependencies of jjversion. Copies of each license can be found in the attributions folder, for instance: [attributions/golang-LICENSE.md](attributions/golang-LICENSE.md).
 
 The externally maintained libraries used by jjversion are:
 
