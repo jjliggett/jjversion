@@ -112,11 +112,13 @@ jobs:
       - run: echo "MAJOR=$(jjversion | jq --raw-output '.Major')" >> $GITHUB_ENV
       - run: echo "MINOR=$(jjversion | jq --raw-output '.Minor')" >> $GITHUB_ENV
       - run: echo "PATCH=$(jjversion | jq --raw-output '.Patch')" >> $GITHUB_ENV
-      - run: go build -a -v -o jjversion_${{ env.VERSION }} -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: env GOARCH=arm64 go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: env GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_linux_arm -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: env GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_linux_386 -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: env GOOS=darwin GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}_darwin_amd64 -ldflags "-X main.appVersion=${{ env.VERSION }}"
+
+      - run: go build -a -v -o jjversion-${{ env.VERSION }}-linux-x64/jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: env GOARCH=arm64 go build -a -v -o jjversion-${{ env.VERSION }}-linux-arm64/jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: env GOARCH=arm go build -a -v -o jjversion-${{ env.VERSION }}-linux-arm/jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: env GOARCH=386 go build -a -v -o jjversion-${{ env.VERSION }}-linux-386/jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
+
+      - run: env GOOS=darwin GOARCH=amd64 go build -a -v -o jjversion-${{ env.VERSION }}-darwin-amd64/jjversion -ldflags "-X main.appVersion=${{ env.VERSION }}"
 
       # Set goversioninfo configuration for version and build Windows executables
       - name: Change goversioninfo in jjversion.go
@@ -128,16 +130,79 @@ jobs:
       - run: echo "/home/runner/go/bin" >> $GITHUB_PATH
       - run: echo $PATH
       - run: go generate
-      - run: env GOOS=windows GOARCH=386 go build -a -v -o jjversion_${{ env.VERSION }}_386.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: env GOOS=windows GOARCH=amd64 go build -a -v -o jjversion_${{ env.VERSION }}.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: env GOOS=windows GOARCH=386 go build -a -v -o jjversion-${{ env.VERSION }}-windows-386/jjversion.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+      - run: env GOOS=windows GOARCH=amd64 go build -a -v -o jjversion-${{ env.VERSION }}-windows-x64/jjversion.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
       - run: rm resource.syso
-      - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion_${{ env.VERSION }}_arm.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
-      - run: cp jjversion_${{ env.VERSION }}.exe jjversion.exe
+      - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion-${{ env.VERSION }}-windows-arm/jjversion.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
+
+      # Prepare directories - copy README and docs (attributions)
+      - run: cp README.md jjversion-${{ env.VERSION }}-linux-x64/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-linux-x64/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-linux-arm64/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-linux-arm64/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-linux-arm/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-linux-arm/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-linux-386/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-linux-386/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-darwin-amd64/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-darwin-amd64/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-windows-x64/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-windows-x64/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-windows-386/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-windows-386/jjversion-docs
+      - run: cp README.md jjversion-${{ env.VERSION }}-windows-arm/jjversion-README.md
+      - run: cp -R docs jjversion-${{ env.VERSION }}-windows-arm/jjversion-docs
+
+      - run: ls -R
+
+      - name: Upload jjversion linux x64
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-linux-x64
+          path: jjversion-${{ env.VERSION }}-linux-x64/
+      - name: Upload jjversion linux arm64
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-linux-arm64
+          path: jjversion-${{ env.VERSION }}-linux-arm64/
+      - name: Upload jjversion linux arm
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-linux-arm
+          path: jjversion-${{ env.VERSION }}-linux-arm/
+      - name: Upload jjversion linux 386
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-linux-386
+          path: jjversion-${{ env.VERSION }}-linux-386/
+
+      - name: Upload jjversion darwin amd64
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-darwin-amd64
+          path: jjversion-${{ env.VERSION }}-darwin-amd64/
+
+      - name: Upload jjversion windows x64
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-windows-x64
+          path: jjversion-${{ env.VERSION }}-windows-x64/
+      - name: Upload jjversion windows 386
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-windows-386
+          path: jjversion-${{ env.VERSION }}-windows-386/
+      - name: Upload jjversion windows arm
+        uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
+        with:
+          name: jjversion-${{ env.VERSION }}-windows-arm
+          path: jjversion-${{ env.VERSION }}-windows-arm/
+
       - name: Upload jjversion.exe
         uses: actions/upload-artifact@82c141cc518b40d92cc801eee768e7aafc9c2fa2
         with:
           name: jjversion.exe
-          path: jjversion.exe
+          path: jjversion-${{ env.VERSION }}-windows-x64/jjversion.exe
 
   publish:
     runs-on: ubuntu-latest
