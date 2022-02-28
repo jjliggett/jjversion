@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
       - run: git log --oneline
       - run: ls -al
-      - uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
+      - uses: actions/setup-go@f6164bd8c8acb4a71fb2791a8b6c4024ff038dab
       - run: go vet
       - run: go test ./...
       - run: go build -a -v -o jjversion
@@ -103,7 +103,7 @@ jobs:
       - uses: actions/checkout@230611dbd0eb52da1e1f4f7bc8bb0c3a339fc8b7
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@424fc82d43fa5a37540bae62709ddcc23d9520d4
+      - uses: actions/setup-go@f6164bd8c8acb4a71fb2791a8b6c4024ff038dab
       - run: go install
       - run: go build -a -v -o jjversion
       - run: sudo mv jjversion /usr/local/bin
