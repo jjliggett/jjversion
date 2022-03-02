@@ -321,7 +321,7 @@ jobs:
         if: ${{ env.VERSION == env.PREVIOUS_COMMIT_VERSION }}
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7
+        uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7
         if: ${{ github.ref == 'refs/heads/root' }}
         with:
           registry: ghcr.io
@@ -333,7 +333,7 @@ jobs:
       - run: docker push "ghcr.io/jjliggett/jjversion:latest"
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
       - name: Login to Docker Hub
-        uses: docker/login-action@42d299face0c5c43a0487c477f595ac9cf22f1a7
+        uses: docker/login-action@dd4fa0671be5250ee6f50aedf4cb05514abda2c7
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
         with:
           registry: docker.io
