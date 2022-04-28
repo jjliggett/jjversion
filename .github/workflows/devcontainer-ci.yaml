@@ -25,7 +25,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
-        uses: docker/setup-buildx-action@5146db6c4d81fbfd508899f851bbb3883a96ff9f
+        uses: docker/setup-buildx-action@f211e3e9ded2d9377c8cadc4489a4e38014bc4c9
       - name: Build and run dev container task
         uses: stuartleeks/devcontainer-build-run@4dbcda186ba4a3fa570f626adcdd5fb6c78af459
         with:
