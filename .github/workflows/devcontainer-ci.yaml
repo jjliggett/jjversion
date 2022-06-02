@@ -27,7 +27,7 @@ jobs:
       - name: Setup Docker BuildKit
         uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6
       - name: Build and run dev container task
-        uses: stuartleeks/devcontainer-build-run@ea461385c2f5566b32c44abbf5175fa8ccd727dd
+        uses: stuartleeks/devcontainer-build-run@f4b5955753dbca9370eb11b604626028b0bae1f3
         with:
           imageName: ghcr.io/jjliggett/jjversion-dc
           runCmd: |
