@@ -54,6 +54,8 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/ProtonMail/go-crypto>
   - <https://github.com/acomagu/bufpipe>
   - <https://github.com/matryer/is>
+  - <https://github.com/cloudflare/circl>
+  - <https://github.com/bwesterb/go-ristretto>
 
 In addition, some libraries are only developer dependencies, used for the GitHub Actions pipeline or the devcontainer. Note, this is in addition to the libraries listed above:
 

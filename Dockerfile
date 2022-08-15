@@ -1,4 +1,4 @@
-FROM golang:1.18.3-alpine3.16@sha256:7cc62574fcf9c5fb87ad42a9789d5539a6a085971d58ee75dd2ee146cb8a8695 AS build
+FROM golang:1.19.0-alpine3.16@sha256:f734a85923ff49da7caf82940b422bf679ca9bdec38cc56f501a4745b557d150 AS build
 
 ARG BUILD_VERSION
 ARG VERSION=${BUILD_VERSION:-0.0.0}
@@ -13,7 +13,7 @@ COPY jjvercore/*.go jjvercore/
 
 RUN go build -o jjversion -ldflags "-X main.appVersion=${VERSION}"
 
-FROM alpine:3.16.0@sha256:686d8c9dfa6f3ccfc8230bc3178d23f84eeaf7e457f36f271ab1acc53015037c
+FROM alpine:3.16.2@sha256:bc41182d7ef5ffc53a40b044e725193bc10142a1243f395ee852a8d9730fc2ad
 WORKDIR '/repo'
 COPY --from=build /app/jjversion /usr/local/bin
 
