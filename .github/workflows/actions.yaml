@@ -8,6 +8,8 @@ on:
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/workflows/devcontainer-ci.yaml'
       - '.github/dependabot.yaml'
+    branches:
+      - root
   pull_request:
     paths-ignore:
       - README.md
@@ -16,6 +18,7 @@ on:
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/workflows/devcontainer-ci.yaml'
       - '.github/dependabot.yaml'
+  workflow_dispatch:
 
 jobs:
   initial-build:

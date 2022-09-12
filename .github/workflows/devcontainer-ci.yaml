@@ -8,6 +8,8 @@ on:
       - '.github/workflows/actions.yaml'
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/dependabot.yaml'
+    branches:
+      - root
   pull_request:
     paths-ignore:
       - README.md
@@ -16,6 +18,7 @@ on:
       - '.github/workflows/actions.yaml'
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/dependabot.yaml'
+  workflow_dispatch:
 
 jobs:
   devcontainer-ci:
@@ -27,7 +30,7 @@ jobs:
       - name: Setup Docker BuildKit
         uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6
       - name: Build and run dev container task
-        uses: stuartleeks/devcontainer-build-run@afa58a5848bbf08f67d2a6be8935cf8121802362
+        uses: devcontainers/ci@afa58a5848bbf08f67d2a6be8935cf8121802362
         with:
           imageName: ghcr.io/jjliggett/jjversion-dc
           runCmd: |
