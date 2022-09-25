@@ -43,6 +43,7 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/stretchr/testify>
   - <https://github.com/xanzy/ssh-agent>
   - <https://cs.opensource.google/go/x/crypto>
+  - <https://cs.opensource.google/go/x/mod>
   - <https://cs.opensource.google/go/x/net>
   - <https://cs.opensource.google/go/x/sys>
   - <https://cs.opensource.google/go/x/term>
