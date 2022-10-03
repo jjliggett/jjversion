@@ -106,7 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@2541b1294d2704b0964813337f33b291d3f8596b
-      - uses: checkmarx/kics-github-action@4988213cc09c75b0cfb8bb845f3734d5b662408c
+      - uses: checkmarx/kics-github-action@c2ef4b7d4ab405c50aab0e1c27f5f4630895c3b7
         with:
           path: 'Dockerfile,Dockerfile.test'
           platform_type: Dockerfile
