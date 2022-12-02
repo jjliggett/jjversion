@@ -3,6 +3,8 @@ FROM golang:1.19.4-alpine3.16@sha256:4b4f7127b01b372115ed9054abc6de0a0b3fdea2245
 ARG BUILD_VERSION
 ARG VERSION=${BUILD_VERSION:-0.0.0}
 
+RUN apk add gcc musl-dev
+
 WORKDIR '/app'
 COPY go.mod go.sum ./
 

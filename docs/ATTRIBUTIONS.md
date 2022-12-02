@@ -58,6 +58,11 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/cloudflare/circl>
   - <https://github.com/bwesterb/go-ristretto>
 
+In addition, we utilize two third party alpine packages in the build Docker image:
+
+  - <https://pkgs.alpinelinux.org/package/edge/main/x86_64/gcc>
+  - <https://pkgs.alpinelinux.org/package/edge/main/x86_64/musl-dev>
+
 In addition, some libraries are only developer dependencies, used for the GitHub Actions pipeline or the devcontainer. Note, this is in addition to the libraries listed above:
 
 - Library scripts and Dockerfile template from <https://github.com/microsoft/vscode-dev-containers> to install dependencies
