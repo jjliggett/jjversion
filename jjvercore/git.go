@@ -34,5 +34,5 @@ func (gs gitService) getRepositoryTagObjects(r *git.Repository) (*object.TagIter
 }
 
 func (gs gitService) getRepositoryCommits(r *git.Repository) (object.CommitIter, error) {
-	return r.Log(&git.LogOptions{})
+	return r.Log(&git.LogOptions{Order: git.LogOrderCommitterTime})
 }
