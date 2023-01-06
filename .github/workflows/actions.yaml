@@ -61,7 +61,7 @@ jobs:
       - name: Setup Docker BuildKit
         uses: docker/setup-buildx-action@8c0edbc76e98fa90f69d9a2c020dcb50019dc325
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -232,7 +232,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
 
@@ -245,42 +245,42 @@ jobs:
       - run: echo "PREVIOUS_COMMIT_VERSION=$(jjversion | jq --raw-output '.MajorMinorPatch')" >> $GITHUB_ENV
 
       - name: Download jjversion linux x64
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-linux-x64
           path: jjversion-${{ env.VERSION }}-linux-x64/
       - name: Download jjversion linux arm64
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-linux-arm64
           path: jjversion-${{ env.VERSION }}-linux-arm64/
       - name: Download jjversion linux arm
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-linux-arm
           path: jjversion-${{ env.VERSION }}-linux-arm/
       - name: Download jjversion linux 386
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-linux-386
           path: jjversion-${{ env.VERSION }}-linux-386/
       - name: Download jjversion darwin amd64
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-darwin-amd64
           path: jjversion-${{ env.VERSION }}-darwin-amd64/
       - name: Download jjversion windows x64
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-windows-x64
           path: jjversion-${{ env.VERSION }}-windows-x64/
       - name: Download jjversion windows 386
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-windows-386
           path: jjversion-${{ env.VERSION }}-windows-386/
       - name: Download jjversion windows arm
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion-${{ env.VERSION }}-windows-arm
           path: jjversion-${{ env.VERSION }}-windows-arm/
@@ -330,7 +330,7 @@ jobs:
           path: jjversion-${{ env.VERSION }}-artifacts.zip
 
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -399,7 +399,7 @@ jobs:
       - run: git checkout -b release/10.42.11
       - run: git commit -m "initial commit" --allow-empty
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -425,7 +425,7 @@ jobs:
       - run: git tag v42.43.44
       - run: git tag -a v100.100.100 -m "v100.100.100"
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -438,7 +438,7 @@ jobs:
     needs: initial-build
     steps:
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -481,7 +481,7 @@ jobs:
     needs: initial-build
     steps:
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -510,7 +510,7 @@ jobs:
     needs: initial-build
     steps:
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -546,7 +546,7 @@ jobs:
       - run: git checkout -b release/10.42.11
       - run: git commit -m "initial commit" --allow-empty
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -570,7 +570,7 @@ jobs:
       - run: git tag v42.43.44
       - run: git tag -a v100.100.100 -m "v100.100.100"
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -581,7 +581,7 @@ jobs:
     needs: docker-build
     steps:
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -623,7 +623,7 @@ jobs:
     needs: docker-build
     steps:
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -651,7 +651,7 @@ jobs:
     needs: docker-build
     steps:
       - name: Download jjversion.tar
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion.tar
       - run: docker load < jjversion.tar
@@ -680,7 +680,7 @@ jobs:
     needs: initial-build
     steps:
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
@@ -717,7 +717,7 @@ jobs:
     needs: initial-build
     steps:
       - name: Download jjversion
-        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: jjversion
       - run: chmod +x jjversion
