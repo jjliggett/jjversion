@@ -3,7 +3,7 @@ module github.com/jjliggett/jjversion
 go 1.19
 
 require (
-	github.com/go-git/go-git/v5 v5.5.1
+	github.com/go-git/go-git/v5 v5.5.2
 	gopkg.in/yaml.v3 v3.0.1
 )
 
