@@ -30,7 +30,7 @@ jobs:
       - name: Setup Docker BuildKit
         uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7
       - name: Build and run dev container task
-        uses: devcontainers/ci@021d1598664d0f16cf5c58c1d8773f25846c2c89
+        uses: devcontainers/ci@c5e74b5f5bd2898b5aad4a96bd673dd4994bb2a3
         with:
           imageName: ghcr.io/jjliggett/jjversion-dc
           runCmd: |
