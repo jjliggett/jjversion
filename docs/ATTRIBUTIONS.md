@@ -57,6 +57,9 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/matryer/is>
   - <https://github.com/cloudflare/circl>
   - <https://github.com/bwesterb/go-ristretto>
+  - <https://github.com/mmcloughlin/avo>
+  - <https://pkg.go.dev/golang.org/x/arch>
+  - <https://pkg.go.dev/rsc.io/pdf>
 
 In addition, we utilize two third party alpine packages in the build Docker image:
 
