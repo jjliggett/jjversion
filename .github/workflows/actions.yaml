@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Starting build pipeline for jjversion."
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         with:
           fetch-depth: 0
       - run: git log --oneline
@@ -55,7 +55,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: initial-build
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
@@ -93,7 +93,7 @@ jobs:
   docker-test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
@@ -105,7 +105,7 @@ jobs:
   kics-scan:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       - uses: checkmarx/kics-github-action@c2ef4b7d4ab405c50aab0e1c27f5f4630895c3b7
         with:
           path: 'Dockerfile,Dockerfile.test'
@@ -121,7 +121,7 @@ jobs:
   build-cross-compilation:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         with:
           fetch-depth: 0
       - uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
@@ -228,7 +228,7 @@ jobs:
       - build-cross-compilation
       - kics-scan
     steps:
-      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
         with:
           fetch-depth: 0
       - name: Download jjversion
