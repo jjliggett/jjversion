@@ -8,6 +8,7 @@ on:
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/workflows/devcontainer-ci.yaml'
       - '.github/dependabot.yaml'
+      - '.gitignore'
     branches:
       - root
   pull_request:
@@ -18,6 +19,7 @@ on:
       - '.github/workflows/codeql-analysis.yaml'
       - '.github/workflows/devcontainer-ci.yaml'
       - '.github/dependabot.yaml'
+      - '.gitignore'
   workflow_dispatch:
 
 jobs:
