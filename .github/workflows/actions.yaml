@@ -104,22 +104,6 @@ jobs:
       - run: docker run --rm jjliggett/jjversion-test
       - run: make test
 
-  kics-scan:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-      - uses: checkmarx/kics-github-action@c2ef4b7d4ab405c50aab0e1c27f5f4630895c3b7
-        with:
-          path: 'Dockerfile,Dockerfile.test'
-          platform_type: Dockerfile
-          verbose: true
-          output_path: kics-results/
-          token: ${{ secrets.GITHUB_TOKEN }}
-          enable_comments: true
-          ignore_on_exit: all
-          bom: true
-      - run: cat kics-results/results.json
-
   build-cross-compilation:
     runs-on: ubuntu-latest
     steps:
@@ -228,7 +212,6 @@ jobs:
       - test-commit-incrementing-custom-versioning-settings
       - test-commit-incrementing-no-settings
       - build-cross-compilation
-      - kics-scan
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
