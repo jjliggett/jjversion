@@ -60,6 +60,10 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/mmcloughlin/avo>
   - <https://pkg.go.dev/golang.org/x/arch>
   - <https://pkg.go.dev/rsc.io/pdf>
+  - <https://github.com/golang/groupcache>
+  - <https://github.com/elazarl/goproxy>
+  - <https://github.com/golang/protobuf>
+  - <https://pkg.go.dev/google.golang.org/protobuf>
 
 In addition, we utilize two third party alpine packages in the build Docker image:
 
