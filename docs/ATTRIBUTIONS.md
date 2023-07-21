@@ -64,6 +64,9 @@ The externally maintained libraries used by jjversion are:
   - <https://github.com/elazarl/goproxy>
   - <https://github.com/golang/protobuf>
   - <https://pkg.go.dev/google.golang.org/protobuf>
+  - <https://golang.org/x/sync>
+  - <https://gopkg.in/check.v1>
+  - <https://github.com/skeema/knownhosts>
 
 In addition, we utilize two third party alpine packages in the build Docker image:
 
