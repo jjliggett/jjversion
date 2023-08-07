@@ -335,7 +335,7 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GH_PUBLISH_TOKEN }}
 
       - run: docker push "ghcr.io/jjliggett/jjversion:${{ env.VERSION }}"
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
@@ -357,7 +357,7 @@ jobs:
         uses: marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          repo_token: "${{ secrets.GH_PUBLISH_TOKEN }}"
           automatic_release_tag: v${{ env.VERSION }}
           prerelease: false
           files: |
