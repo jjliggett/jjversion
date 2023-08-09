@@ -1,6 +1,6 @@
 module github.com/jjliggett/jjversion
 
-go 1.20
+go 1.21
 
 require (
 	github.com/go-git/go-git/v5 v5.8.1
@@ -28,7 +28,7 @@ require (
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect
 	golang.org/x/sys v0.11.0 // indirect
-	golang.org/x/tools v0.11.1 // indirect
-	google.golang.org/protobuf v1.26.0 // indirect
+	golang.org/x/tools v0.12.0 // indirect
+	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/warnings.v0 v0.1.2 // indirect
 )
