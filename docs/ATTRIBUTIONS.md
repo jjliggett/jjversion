@@ -68,6 +68,8 @@ The externally maintained libraries used by jjversion are:
   - <https://gopkg.in/check.v1>
   - <https://github.com/skeema/knownhosts>
   - <https://github.com/rogpeppe/go-internal>
+  - <https://github.com/cyphar/filepath-securejoin>
+  - <https://github.com/onsi/gomega>
 
 In addition, we utilize two third party alpine packages in the build Docker image:
 
