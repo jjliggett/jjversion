@@ -38,3 +38,16 @@ updates:
     commit-message:
       prefix: "ci"
       include: "scope"
+
+  - package-ecosystem: "devcontainers"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 10
+    assignees:
+      - "jjliggett"
+    reviewers:
+      - "jjliggett"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
