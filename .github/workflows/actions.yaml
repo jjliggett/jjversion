@@ -48,7 +48,7 @@ jobs:
       - run: jjversion --version
       - run: jjversion --help
       - name: Upload jjversion
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion
           path: jjversion
@@ -87,7 +87,7 @@ jobs:
       - run: docker run --rm jjliggett/jjversion jjversion --version
       - run: docker save jjliggett/jjversion > jjversion.tar
       - name: Upload jjversion.tar
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion.tar
           path: jjversion.tar
@@ -145,50 +145,50 @@ jobs:
       - run: env GOOS=windows GOARCH=arm go build -a -v -o jjversion-${{ env.VERSION }}-windows-arm/jjversion.exe -ldflags "-X main.appVersion=${{ env.VERSION }}"
 
       - name: Upload jjversion docs
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-docs
           path: docs/
 
       - name: Upload jjversion linux x64
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-linux-x64
           path: jjversion-${{ env.VERSION }}-linux-x64/
       - name: Upload jjversion linux arm64
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-linux-arm64
           path: jjversion-${{ env.VERSION }}-linux-arm64/
       - name: Upload jjversion linux arm
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-linux-arm
           path: jjversion-${{ env.VERSION }}-linux-arm/
       - name: Upload jjversion linux 386
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-linux-386
           path: jjversion-${{ env.VERSION }}-linux-386/
 
       - name: Upload jjversion darwin amd64
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-darwin-amd64
           path: jjversion-${{ env.VERSION }}-darwin-amd64/
 
       - name: Upload jjversion windows x64
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-windows-x64
           path: jjversion-${{ env.VERSION }}-windows-x64/
       - name: Upload jjversion windows 386
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-windows-386
           path: jjversion-${{ env.VERSION }}-windows-386/
       - name: Upload jjversion windows arm
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-windows-arm
           path: jjversion-${{ env.VERSION }}-windows-arm/
@@ -309,7 +309,7 @@ jobs:
       - run: zip jjversion-${{ env.VERSION }}-artifacts.zip jjversion-${{ env.VERSION }}-linux-x64.zip jjversion-${{ env.VERSION }}-linux-arm64.zip jjversion-${{ env.VERSION }}-linux-arm.zip jjversion-${{ env.VERSION }}-linux-386.zip jjversion-${{ env.VERSION }}-darwin-amd64.zip jjversion-${{ env.VERSION }}-windows-x64.zip jjversion-${{ env.VERSION }}-windows-386.zip jjversion-${{ env.VERSION }}-windows-arm.zip
       - run: ls -R
       - name: Upload jjversion
-        uses: actions/upload-artifact@26f96dfa697d77e81fd5907df203aa23a56210a8 # v4.3.0
+        uses: actions/upload-artifact@5d5d22a31266ced268874388b861e4b58bb5c2f3 # v4.3.1
         with:
           name: jjversion-${{ env.VERSION }}-artifacts.zip
           path: jjversion-${{ env.VERSION }}-artifacts.zip
