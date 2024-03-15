@@ -61,7 +61,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
-        uses: docker/setup-buildx-action@0d103c3126aa41d772a8362f6aa67afac040f80c # v3.1.0
+        uses: docker/setup-buildx-action@2b51285047da1547ffb1b2203d8be4c0af6b1f20 # v3.2.0
       - name: Download jjversion
         uses: actions/download-artifact@c850b930e6ba138125429b7e5c93fc707a7f8427 # v4.1.4
         with:
@@ -99,7 +99,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
-        uses: docker/setup-buildx-action@0d103c3126aa41d772a8362f6aa67afac040f80c # v3.1.0
+        uses: docker/setup-buildx-action@2b51285047da1547ffb1b2203d8be4c0af6b1f20 # v3.2.0
       - run: docker build -f Dockerfile.test -t jjliggett/jjversion-test .
       - run: docker run --rm jjliggett/jjversion-test
       - run: make test

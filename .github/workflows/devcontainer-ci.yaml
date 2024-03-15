@@ -30,7 +30,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Docker BuildKit
-        uses: docker/setup-buildx-action@0d103c3126aa41d772a8362f6aa67afac040f80c # v3.1.0
+        uses: docker/setup-buildx-action@2b51285047da1547ffb1b2203d8be4c0af6b1f20 # v3.2.0
       - name: Build and run dev container task
         uses: devcontainers/ci@7957e0cf6d027a8ab027745f399fcdbd3aa74f0f # v0.3.1900000348
         with:
