@@ -354,12 +354,15 @@ jobs:
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
 
       - name: Create GitHub release
-        uses: marvinpinto/action-automatic-releases@919008cf3f741b179569b7a6fb4d8860689ab7f0 # v1.2.1
+        uses: softprops/action-gh-release@9d7c94cfd0a1f3ed45544c887983e9fa900f0564 # v2.0.4
         if: ${{ github.ref == 'refs/heads/root' && env.VERSION != env.PREVIOUS_COMMIT_VERSION }}
         with:
-          repo_token: "${{ secrets.GH_PUBLISH_TOKEN }}"
-          automatic_release_tag: v${{ env.VERSION }}
+          token: "${{ secrets.GH_PUBLISH_TOKEN }}"
+          draft: false
           prerelease: false
+          tag_name: v${{ env.VERSION }}
+          generate_release_notes: true
+          make_latest: true
           files: |
             jjversion-${{ env.VERSION }}-linux-x64.zip
             jjversion-${{ env.VERSION }}-linux-arm64.zip
