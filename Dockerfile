@@ -1,4 +1,4 @@
-FROM golang:1.22.4-alpine@sha256:9bdd5692d39acc3f8d0ea6f81327f87ac6b473dd29a2b6006df362bff48dd1f8 AS build
+FROM golang:1.22.5-alpine@sha256:8c9183f715b0b4eca05b8b3dbf59766aaedb41ec07477b132ee2891ac0110a07 AS build
 
 ARG BUILD_VERSION
 ARG VERSION=${BUILD_VERSION:-0.0.0}
