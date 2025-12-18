@@ -15,7 +15,7 @@ COPY jjvercore/*.go jjvercore/
 
 RUN go build -o jjversion -ldflags "-X main.appVersion=${VERSION}"
 
-FROM alpine:3.21.3@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+FROM alpine:3.23.2@sha256:865b95f46d98cf867a156fe4a135ad3fe50d2056aa3f25ed31662dff6da4eb62
 WORKDIR '/repo'
 COPY --from=build /app/jjversion /usr/local/bin
 
